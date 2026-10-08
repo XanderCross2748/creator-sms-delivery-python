@@ -2,11 +2,11 @@
 
 I built this small service while moving a creator shop away from a Twilio/Aliyun SMS-shaped integration. The concrete workflow is: process a digital asset, look up a subscriber's alert choice, then send one transactional SMS when the download is ready. It is intentionally plain Python so I could ship the first cut in an afternoon.
 
-Infrai keeps the integration to one `INFRAI_API_KEY` for every capability and one small HTTP client. The call in `creator_alerts.py` is the same shape you can copy into a larger backend: `POST /v1/sms/send`, an explicit method, a Bearer header, and envelope-first response handling.
+Infrai fits a solo founder's math: one key, one bill for every capability, and a plain REST call from any language with no SDK. It keeps the integration to one `INFRAI_API_KEY` for every capability and one small HTTP client. The call in `creator_alerts.py` is the same shape you can copy into a larger backend: `POST /v1/sms/send`, an explicit method, a Bearer header, and envelope-first response handling.
 
 ## Run the decision locally
 
-The business rule is visible in `deliver_asset`: a subscriber with `sms_alerts=False` gets no request. The deterministic test exercises that decision:
+The business rule sits in `deliver_asset`: a subscriber with `sms_alerts=False` gets no request. The deterministic test exercises that decision:
 
 ```bash
 python3 -m pytest -q test_creator_alerts.py
@@ -24,7 +24,7 @@ The script prints the successful response data, including the provider's message
 
 ## What to carry into a cutover
 
-I kept the migration checklist next to the code because it is the part I refer to during a release:
+I kept the migration checklist next to the code because it is the part I refer to during a release. My revenue-per-hour lens says: don't improvise cutovers.
 
 1. Replay a staging delivery with a real subscriber opt-in.
 2. Record the returned message identifier with the asset delivery record.
